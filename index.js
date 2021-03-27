@@ -1,16 +1,28 @@
 const { Bot, Keyboard, KeyboardColor } = require('node-vk-bot');
 const util = require('util');
 
+const steps = require('./steps');
+
 const bot = new Bot({
-    token: 'твой_токен',
-    group_id: 777
+    token: 'your token',
+    group_id: group_id_number
 }).start();
 
 console.log('Bot started!');
 
 bot.get(/./i, (message, exec, reply) => {
+    let info = message.payload && steps[JSON.parse(message.payload)] || steps[''];
+    let keyboard = new Keyboard(true);
+
+    for (let i = 0; i < info.btns.length; i++) {
+        if (i) keyboard.addRow();
+
+        const btn = info.btns[i];
+
+        keyboard.addButton(btn.msg, KeyboardColor.PRIMARY, JSON.stringify(btn.next));
+    }
     
-    reply('Это всё что я могу делать - отвечать вот этим текстом!').catch(e => console.error(e));
+    reply(info.question, {keyboard}).catch(e => console.error(e));
 })
 
 bot.on('poll-error', error => {
