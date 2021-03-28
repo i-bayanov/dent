@@ -4,8 +4,8 @@ const util = require('util');
 const steps = require('./steps');
 
 const bot = new Bot({
-    token: 'your token',
-    group_id: group_id_number
+    token: 'abe8e0509b749a26067c5445f236d7037e59f2d666060696cf5a3c345331fbeb05943eca794d7103f7e41',
+    group_id: 87349535
 }).start();
 
 console.log('Bot started!');
